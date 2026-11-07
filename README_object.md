@@ -7,11 +7,11 @@ We release object motion tracking results with manual validation for GigaHands d
 
 ## 📂 Object Pose Data
 
-Download object pose [here](https://app.globus.org/file-manager?origin_id=625b46a5-022a-4908-a8bb-7f2b3e3b382c&origin_path=%2F). There are 3.3k object motion sequences in 4 zip files ([zip 1](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_001.zip), [zip 2](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_002.zip), [zip 3](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_003.zip), [zip 4](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_004.zip)).
+Download object poses from [`object_poses/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_poses) on Hugging Face (`hf download freddie007/GigaHands --repo-type dataset --include "object_poses/*"`). There are 3.3k object motion sequences.
 Tracked object poses are stored under:
 
 ```
-brics-mini-objects-round1/{scene_name}/{object_name}/{sequence_id}/pose/optimized_pose.json
+object_poses/{scene_name}/{object_name}/{session}_{sequence_id}/pose/optimized_pose.json
 ```
 
 Each `optimized_pose.json` contains the estimated 3D pose of an object instance in the given scene and sequence.
@@ -26,10 +26,10 @@ Each `optimized_pose.json` contains the estimated 3D pose of an object instance 
 
 ## 🧩 Mesh Data
 
-Download object mesh files [here](https://g-852369.56197.5898.data.globus.org/scans_publish.zip). Object mesh files are stored separately under:
+Download object mesh files from [`object_meta/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_meta). Object mesh files are stored separately under:
 
 ```
-scans_publish/{scene_name}/{object_name}/mesh_obj_file
+object_meta/{scene_name}/{object_name}/mesh_obj_file
 ```
 
 These meshes correspond to the `<object_path>` entries used in the annotation CSVs.
@@ -37,7 +37,7 @@ These meshes correspond to the `<object_path>` entries used in the annotation CS
 
 ## ✅ Annotation Format
 
-Down load object meta data [here](https://g-dc7fc0.56197.5898.data.globus.org/object_meta.zip). Per-scene annotations are provided as CSV files, with both **object presence** and **tracking success** information.
+Download object meta data from [`object_meta/scene_wise_round1/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_meta/scene_wise_round1). Per-scene annotations are provided as CSV files, with both **object presence** and **tracking success** information.
 
 The format is:
 

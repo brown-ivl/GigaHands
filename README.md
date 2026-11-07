@@ -26,19 +26,21 @@
 
 ## 📢 Updates
 
-- [2025/09/04] For full **object poses**, access our Globus repository: [here](https://app.globus.org/file-manager?origin_id=625b46a5-022a-4908-a8bb-7f2b3e3b382c&origin_path=%2F). There are a total of 3.3k object motion sequences in 4 zip files ([zip 1](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_001.zip), [zip 2](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_002.zip), [zip 3](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_003.zip), [zip 4](https://g-dc7fc0.56197.5898.data.globus.org/pose_jsons_round1_004.zip)). Object meta annotation is provided [here](https://g-dc7fc0.56197.5898.data.globus.org/object_meta.zip). Please checkout the [README_object](README_object.md) for usage. 
+- [2026/11/07] 🤗 **The full GigaHands dataset is now hosted on Hugging Face: [freddie007/GigaHands](https://huggingface.co/datasets/freddie007/GigaHands)**. It includes hand poses, object poses and meshes, multiview RGB videos (1.06 TB), text annotations, demo data, and checkpoints. All download links below now point there. See the [dataset card](https://huggingface.co/datasets/freddie007/GigaHands) for the file layout and download recipes.
+
+- [2025/09/04] For full **object poses**, see [`object_poses/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_poses). There are a total of 3.3k object motion sequences. Object meta annotation is provided in [`object_meta/scene_wise_round1/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_meta/scene_wise_round1). Please checkout the [README_object](README_object.md) for usage. 
 - [2025/07/21] We provide [hand-object mesh visualizer](./render_mesh_video.py). The visualizer provides hand-object temporal alignment, and camera parameter usage. 
 
-- [2025/07/09] For **object meshes**, you can download them [here](https://g-ad09a0.56197.5898.data.globus.org/scans_publish.zip). 
+- [2025/07/09] For **object meshes**, you can download them from [`object_meta/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_meta). 
 
-  We also provide smoother 3D hand poses that are aligned with the object coordinate system, derived from MANO parameters — available [here](https://g-ad09a0.56197.5898.data.globus.org/keypoints_3d_mano_align.tar.gz).
+  We also provide smoother 3D hand poses that are aligned with the object coordinate system, derived from MANO parameters — included as `keypoints_3d_mano_align/` in every [`hand_poses/<session>.tar.gz`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/hand_poses).
   Note: the previously provided `keypoints_3d_mano` were also generated from MANO parameters, but have been normalized and recentered to better support motion generation training.
 
-- [2025/04/30] For **multiview RGB videos**, access our Globus repository: [here](https://app.globus.org/file-manager?origin_id=63bfc5ca-bb87-4633-b4b5-5e81b35fdbdf&origin_path=%2Fmultiview_rgb_vids%2F). Download each `.tar.gz` separately (contains 10 views per file, 51 camera views in total.)
+- [2025/04/30] For **multiview RGB videos**, see [`multiview_rgb_vids/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/multiview_rgb_vids). There is one uncompressed `.tar` per session containing all 51 camera views. [`tar_index.csv.gz`](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/multiview_rgb_vids/tar_index.csv.gz) gives each clip's byte offset, so single clips can be fetched with HTTP range requests.
 
-- [2025/04/02] We are pleased to release our full **hand pose** dataset, available for download [here](https://g-ad09a0.56197.5898.data.globus.org/hand_poses.tar.gz) (Including all `keypoints_3d`,  `keypoints_3d_mano` and `params`). 
+- [2025/04/02] We are pleased to release our full **hand pose** dataset, available for download from [`hand_poses/`](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/hand_poses), one `.tar.gz` per session (including all `keypoints_3d`, `keypoints_3d_mano`, `keypoints_3d_mano_align`, `params` and camera parameters). 
 
-Complete **text annotation** are available [here](https://g-ad09a0.56197.5898.data.globus.org/annotations_v2.jsonl). We used the `rewritten_annotation` for model training. 
+Complete **text annotation** are available [here](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/annotations_v2.jsonl). We used the `rewritten_annotation` for model training. 
 
 More data coming soon! 🔜
 
@@ -47,11 +49,10 @@ Understanding bimanual human hand activities is a critical problem in AI and rob
 
 ## 📂 Data Format
 
-We store our dataset on [Globus](https://www.globus.org/). Access the raw data via [here](https://app.globus.org/file-manager?origin_id=63bfc5ca-bb87-4633-b4b5-5e81b35fdbdf&origin_path=%2F).
+We store our dataset on Hugging Face: [freddie007/GigaHands](https://huggingface.co/datasets/freddie007/GigaHands). It was previously hosted on Globus.
 ### Demo Data
 
-You can download 1 demo sequence from [here](https://g-ad09a0.56197.5898.data.globus.org/gigahands_demo.tar.gz).
-Or download 5 demo sequences from [here](https://g-ad09a0.56197.5898.data.globus.org/gigahands_demo_all.tar.gz). 
+You can download 5 demo sequences from [here](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/demo/gigahands_demo_all.tar.gz).
 
 <summary>Directory Structure (Click to expand)</summary>
 
@@ -99,6 +100,7 @@ The dataset directory should look like this:
     ├── p<participant id>-<scene>/
         ├── keypoints_3d/				# 3D hand keypoints (triangulate multi-view 2D keypoints.)
         ├── keypoints_3d_mano/				# 3D hand keypoints (extract from mano parms and normalized, more smooth)
+        ├── keypoints_3d_mano_align/			# 3D hand keypoints (from mano params, in world coordinates, aligned with object poses)
         ├── params/					# mano parameters
         ├── optim_params.txt				# camera parameters
 ├── object_poses/
@@ -116,7 +118,20 @@ The dataset directory should look like this:
 └── instruction_script.json 			# original instruction for filming
 └── multiview_camera_video_map.csv      # scene-sequence id <-> multiview rgb video id mapping
 ```
-Downlod the multiview_rgb videos from [here](https://app.globus.org/file-manager?origin_id=63bfc5ca-bb87-4633-b4b5-5e81b35fdbdf&origin_path=%2Fmultiview_rgb_vids%2F), hand annotations and camera parameters from [here](https://g-ad09a0.56197.5898.data.globus.org/hand_poses.tar.gz), smoothed 3d hand keypoints from [here](https://g-ad09a0.56197.5898.data.globus.org/keypoints_3d_mano_align.tar.gz), object poses from [here](https://app.globus.org/file-manager?origin_id=625b46a5-022a-4908-a8bb-7f2b3e3b382c&origin_path=%2F), object mesh from [here](https://g-ad09a0.56197.5898.data.globus.org/scans_publish.zip), text annotations from [here](https://g-ad09a0.56197.5898.data.globus.org/annotations_v2.jsonl), the original instruction script grouped by scenario, scene, activity from [here](https://g-ad09a0.56197.5898.data.globus.org/instruction_script.json), scene-sequence mapping with video id meta file [here](https://g-852369.56197.5898.data.globus.org/multiview_camera_video_map.csv), object mesh mapping with scene-sequence id [here](https://g-dc7fc0.56197.5898.data.globus.org/object_meta.zip). 
+Download with the Hugging Face CLI (`pip install -U "huggingface_hub[cli]"`), then unpack the per-session tars:
+
+```bash
+# everything except videos (~20 GB)
+hf download freddie007/GigaHands --repo-type dataset --local-dir dataset/GigaHands --exclude "multiview_rgb_vids/*.tar"
+cd dataset/GigaHands
+for f in hand_poses/*.tar.gz; do tar -xzf "$f" -C hand_poses && rm "$f"; done
+
+# multiview RGB videos (~1.06 TB in total). Use --include "multiview_rgb_vids/p042-gopro.tar" for selected sessions only.
+hf download freddie007/GigaHands --repo-type dataset --local-dir . --include "multiview_rgb_vids/*.tar"
+for f in multiview_rgb_vids/*.tar; do tar -xf "$f" -C multiview_rgb_vids && rm "$f"; done
+```
+
+Individual components: multiview RGB videos [here](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/multiview_rgb_vids), hand annotations and camera parameters (including smoothed 3D hand keypoints) [here](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/hand_poses), object poses [here](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_poses), object meshes and the object mesh mapping with scene-sequence id [here](https://huggingface.co/datasets/freddie007/GigaHands/tree/main/object_meta), text annotations [here](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/annotations_v2.jsonl), the original instruction script grouped by scenario, scene, activity [here](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/instruction_script.json), scene-sequence mapping with video id meta file [here](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/multiview_camera_video_map.csv).
 
 ## Installation
 
@@ -144,7 +159,7 @@ python setup.py develop
 ```
 
 4. Download [mano](https://mano.is.tue.mpg.de/download.php) models and place the `MANO_*.pkl` files under `body_models/smplh`.
-5. Download the pretrained models by running `bash dataset/download_pretrained_models.sh`, which should be like:
+5. Download the pretrained models by running `bash dataset/download_pretrained_models.sh` (or from [here](https://huggingface.co/datasets/freddie007/GigaHands/resolve/main/checkpoints/checkpoints.zip)), which should be like:
 
 ```shell
 ./checkpoints/GigaHands/
